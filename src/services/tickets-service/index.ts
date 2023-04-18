@@ -3,7 +3,7 @@ import enrollmentRepository from "@/repositories/enrollment-repository";
 import ticketRepository from "@/repositories/ticket-repository";
 import { TicketStatus } from "@prisma/client";
 
-async function getTicketTypes() {
+async function getAllTicketTypes() {
     const ticketTypes = await ticketRepository.findManyTicketsType();
 
     if(!ticketTypes) {
@@ -48,7 +48,7 @@ async function createTicket(userId: number, ticketTypeId: number) {
 }
 
 const ticketsService = {
-    getTicketTypes,
+    getAllTicketTypes,
     getTicket,
     createTicket
 };
