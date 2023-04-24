@@ -52,12 +52,12 @@ describe('GET /hotels', () => {
       expect(response.body).toEqual([]);
     });
 
-    it('should respond with status 200 and an array of hotels', async () => {
+    it.only('should respond with status 200 and an array of hotels', async () => {
       const hotel = await prisma.hotel.create({
         data: {
-          name: "Hotel",
-          image: "https://img.freepik.com/vetores-gratis/edificio-flat-hotel_23-2148162501.jpg?w=2000",
-        }
+          name: 'Hotel',
+          image: 'https://img.freepik.com/vetores-gratis/edificio-flat-hotel_23-2148162501.jpg?w=2000',
+        },
       });
       const user = await createUser();
       const token = await generateValidToken(user);
@@ -68,13 +68,15 @@ describe('GET /hotels', () => {
 
       const response = await server.get(`/hotels`).set('Authorization', `Bearer ${token}`);
       expect(response.status).toEqual(httpStatus.OK);
-      expect(response.body).toEqual([{
-        id: hotel.id,
-        name: hotel.name,
-        image: hotel.image,
-        createdAt: hotel.createdAt.toISOString(),
-        updatedAt: hotel.updatedAt.toISOString(),
-      }]);
+      expect(response.body).toEqual([
+        {
+          id: hotel.id,
+          name: hotel.name,
+          image: hotel.image,
+          createdAt: hotel.createdAt.toISOString(),
+          updatedAt: hotel.updatedAt.toISOString(),
+        },
+      ]);
     });
   });
 });

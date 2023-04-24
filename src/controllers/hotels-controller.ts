@@ -5,9 +5,13 @@ import httpStatus from 'http-status';
 
 export async function getAllHotels(req: AuthenticatedRequest, res: Response) {
   try {
-    const hotels = await hotelsService.getAllHotels();
+    const userId = req.userId;
+    const hotels = await hotelsService.getAllHotels(userId);
     return res.status(httpStatus.OK).send(hotels);
   } catch (error) {
-    return res.status(httpStatus.NOT_FOUND).send({});
+    if (error.name === 'NotFound') {
+      return res.status(httpStatus.NOT_FOUND).send({});
+    }
+    return res.sendStatus(httpStatus.NOT_ACCEPTABLE);
   }
-};
+}
