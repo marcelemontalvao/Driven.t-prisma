@@ -10,4 +10,4 @@ export async function getAllHotels(req: AuthenticatedRequest, res: Response) {
   } catch (error) {
     return res.status(httpStatus.NOT_FOUND).send({});
   }
-}
+};
