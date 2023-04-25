@@ -1,15 +1,10 @@
-import { invalidDataError, notFoundError } from '@/errors';
-import enrollmentRepository from '@/repositories/enrollment-repository';
+import { notFoundError } from '@/errors';
 import hotelsRepository from '@/repositories/hotels-repository';
-import ticketsRepository from '@/repositories/tickets-repository';
+import ticketsService from '../tickets-service';
 
 async function getAllHotels(userId: number) {
-  const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
-  if (!enrollment) throw notFoundError();
-
-  const ticket = await ticketsRepository.findTicketByEnrollmentId(enrollment.id);
+  const ticket = await ticketsService.getTicketByUserId(userId);
   if (!ticket) throw notFoundError();
-  if (ticket.TicketType.isRemote || !ticket.TicketType.includesHotel) throw invalidDataError([]);
 
   const hotels = await hotelsRepository.findAllHotels();
   return hotels;

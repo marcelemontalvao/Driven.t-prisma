@@ -52,7 +52,7 @@ describe('GET /hotels', () => {
       expect(response.body).toEqual([]);
     });
 
-    it.only('should respond with status 200 and an array of hotels', async () => {
+    it('should respond with status 200 and an array of hotels', async () => {
       const hotel = await prisma.hotel.create({
         data: {
           name: 'Hotel',
